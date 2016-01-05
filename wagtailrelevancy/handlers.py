@@ -15,22 +15,28 @@ def create_reminders(sender, **kwargs):
     user = revision.user
 
     try:
-        remind_interval = settings.REMIND_INTERVAL
+        send_reminders = instance.send_reminders
     except AttributeError:
-        remind_interval = 14
+        send_reminders = False
 
-    due_to_be_sent_at = timezone.now() + timedelta(days=remind_interval)
+    if send_reminders is True:
+        try:
+            remind_interval = settings.REMIND_INTERVAL
+        except AttributeError:
+            remind_interval = 14
 
-    try:
-        old_reminder = Reminder.objects.get(page=instance, sent=False)
-        old_reminder.due_to_be_sent_at = due_to_be_sent_at
-        old_reminder.save()
-    except Reminder.DoesNotExist:
-        Reminder.objects.create(
-            page=instance,
-            user=user,
-            due_to_be_sent_at=due_to_be_sent_at
-        )
+        due_to_be_sent_at = timezone.now() + timedelta(days=remind_interval)
+
+        try:
+            old_reminder = Reminder.objects.get(page=instance, sent=False)
+            old_reminder.due_to_be_sent_at = due_to_be_sent_at
+            old_reminder.save()
+        except Reminder.DoesNotExist:
+            Reminder.objects.create(
+                page=instance,
+                user=user,
+                due_to_be_sent_at=due_to_be_sent_at
+            )
 
 
 @receiver(page_unpublished)
