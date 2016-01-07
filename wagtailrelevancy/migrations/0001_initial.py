@@ -8,19 +8,20 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('wagtailcore', '0020_add_index_on_page_first_published_at'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Reminder',
             fields=[
-                ('id', models.AutoField(auto_created=True, verbose_name='ID', primary_key=True, serialize=False)),
-                ('due_to_be_sent_at', models.DateTimeField(blank=True, null=True)),
+                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('due_to_be_sent_at', models.DateTimeField(null=True, blank=True)),
+                ('page_reviewed', models.BooleanField(default=False)),
                 ('sent', models.BooleanField(default=False)),
-                ('page', models.ForeignKey(blank=True, to='wagtailcore.Page', null=True)),
-                ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('page', models.ForeignKey(to='wagtailcore.Page')),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

@@ -1,0 +1,39 @@
+
+{% extends "wagtailadmin/base.html" %}
+{% load wagtailusers_tags static compress i18n %}
+
+{% block titletag %}{% trans "Editing" %} {{ group.name }}{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    {% compress css %}
+        <link rel="stylesheet" href="{% static 'wagtailusers/css/groups_edit.css' %}" type="text/css" />
+    {% endcompress %}
+{% endblock %}
+
+{% block content %}
+
+    {% trans "Editing" as editing_str %}
+    {% include "wagtailadmin/shared/header.html" with title=editing_str subtitle=group.name icon="group" %}
+
+    <div class="nice-padding">
+        <form action="" method="POST">
+            {% csrf_token %}
+
+            <ul class="fields">
+                <li>
+                    {% include "wagtailusers/groups/includes/page_permissions_formset.html" with formset=formset only %}
+                </li>
+                <li>
+                    <input type="submit" value="{% trans 'Save' %}" />
+                </li>
+            </ul>
+
+        </form>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    {{ block.super }}
+    {% include "wagtailusers/groups/includes/group_form_js.html" %}
+{% endblock %}
