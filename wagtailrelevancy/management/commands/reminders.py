@@ -5,6 +5,7 @@ from django.core.mail import EmailMessage
 from django.core.management.base import BaseCommand
 from django.template.loader import render_to_string
 from django.utils import timezone
+from django.utils.translation import ugettext as _
 from wagtailrelevancy.models import Reminder
 
 
@@ -23,7 +24,7 @@ class Command(BaseCommand):
             reminder_template = 'wagtailrelevancy/reminder.html'
 
         for reminder in reminders:
-            subject = 'Reminder: Check to see if the content on the page, {0}, is up to date!'.format(reminder.page.title)
+            subject = _('Reminder: Check to see if the content on the page, {0}, is up to date!'.format(reminder.page.title))
             message = render_to_string(
                 reminder_template, {
                     'user': reminder.user,
@@ -53,7 +54,7 @@ class Command(BaseCommand):
             fourteen_days_after_now = timezone.now() + timedelta(days=14)
             stale_reminders = Reminder.objects.filter(sent=True, due_to_be_sent_at__gt=fourteen_days_after_now)
             if stale_reminders.exists():
-                print('Purging {0} stale reminders'.format(stale_reminders.count()))
+                print(_('Purging {0} stale reminders'.format(stale_reminders.count())))
                 stale_reminders.delete()
             else:
-                print('There were no stale reminders to purge.')
+                print(_('There were no stale reminders to purge.'))

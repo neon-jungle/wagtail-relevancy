@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils.translation import ugettext as _
 from wagtail.wagtailcore.models import Page as WagtailPage
 
 
@@ -15,4 +16,4 @@ class Reminder(models.Model):
         unique_together = [['user', 'page']]
 
     def __str__(self):
-        return '{0} ({1})'.format(self.page.title, self.user.get_full_name())
+        return _('{0} ({1})'.format(self.page.title, self.user.get_full_name()))
