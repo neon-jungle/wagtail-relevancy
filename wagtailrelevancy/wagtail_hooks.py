@@ -38,12 +38,6 @@ def reminder_warnings(request, panels):
     if reminder_panels.reminders:
         panels.append(reminder_panels)
 
-    """
-    DEBUG
-    for panel in panels:
-        print(panel.render())
-    """
-
 
 @hooks.register('register_admin_urls')
 def register_admin_urls():

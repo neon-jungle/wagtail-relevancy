@@ -49,9 +49,10 @@ class Command(BaseCommand):
             purge = settings.PURGE_REMINDERS
         except AttributeError:
             purge = True
+            default_purge_days = 14
 
         if purge:
-            fourteen_days_after_now = timezone.now() + timedelta(days=14)
+            fourteen_days_after_now = timezone.now() + timedelta(days=default_purge_days)
             stale_reminders = Reminder.objects.filter(sent=True, due_to_be_sent_at__gt=fourteen_days_after_now)
             if stale_reminders.exists():
                 print(_('Purging {0} stale reminders'.format(stale_reminders.count())))

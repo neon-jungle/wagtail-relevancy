@@ -31,7 +31,7 @@ class ReminderForm(forms.ModelForm):
 
     class Meta:
         model = Reminder
-        fields = ('page', 'reminder_interval')
+        fields = ['page', 'reminder_interval']
 
     def save(self, commit=True):
         instance = super(ReminderForm, self).save(commit=False)
