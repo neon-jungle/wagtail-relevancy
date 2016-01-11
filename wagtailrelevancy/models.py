@@ -6,7 +6,7 @@ from wagtail.wagtailcore.models import Page as WagtailPage
 class Reminder(models.Model):
     due_to_be_sent_at = models.DateTimeField(blank=True, null=True)
     reminder_interval = models.PositiveIntegerField()
-    page_reviewed = models.BooleanField(default=False)
+    page_reviewed = models.BooleanField(default=True)
     page = models.ForeignKey(WagtailPage)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     sent = models.BooleanField(default=False)

@@ -20,19 +20,22 @@ class ReminderWarningPanel(object):
             self.reminders = Reminder.objects.filter(sent=True, page_reviewed=False, user=request.user)
 
         except Reminder.DoesNotExist:
-            self.reminders = ['poop', 'poop']
+            pass
 
     def render(self):
-        return render_to_string('wagtailrelevancy/panel_warnings.html', {
-            'reminders': self.reminders,
-            'request': self.request,
-        })
+        if self.reminders:
+            return render_to_string('wagtailrelevancy/panel_warnings.html', {
+                'reminders': self.reminders,
+                'request': self.request,
+            })
+        else:
+            return None
 
 
 @hooks.register('construct_homepage_panels')
 def reminder_warnings(request, panels):
     reminder_panels = ReminderWarningPanel(request)
-    if panels:
+    if reminder_panels.reminders:
         panels.append(reminder_panels)
 
     """

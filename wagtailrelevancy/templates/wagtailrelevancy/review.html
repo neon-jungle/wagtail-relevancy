@@ -1,0 +1,24 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n %}
+{% block titletag %}{% trans "Relevancy Review" %}{% endblock %}
+{% block bodyclass %}menu-relevancy{% endblock %}
+{% block content %}
+
+    {% trans "Relevancy Review" as new_str %}
+    {% include "wagtailadmin/shared/header.html" with title=new_str subtitle=review icon="doc-full" %}
+
+    <div class="row row-flush nice-padding">
+        <form action="{% url 'wagtailrelevancy_review' pk=reminder.pk %}" method="POST">
+            {% csrf_token %}
+            <p>{% blocktrans %}Are you sure you want to mark this page as reviewed until your next reminder?{% endblocktrans %}</p>
+            <input type="submit" class="button no" value="{% trans 'Yes, mark as reviewed' %}" />
+        </form>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+    {% include "wagtailadmin/pages/_editor_css.html" %}
+{% endblock %}
+{% block extra_js %}
+    {% include "wagtailadmin/pages/_editor_js.html" %}
+{% endblock %}

@@ -1,8 +1,10 @@
 <p>Hi {% if user.first_name %}{{user.first_name}}{% else %}{{user.username}}{% endif %},</p>
 
-<p>We are writing to remind you that you may want to check the page <a href='#'>{{page.title}}</a> that you recently published to make sure the content is still correct
-and up to date.</p>
+<p>We are writing to remind you that you may want to check the page <a href='{{page.full_url}}'>{{page.title}}</a>
+	 to make sure the content is still correct and up to date.</p>
 
 
-Thanks,
+<p>Thanks,
+<br>
 {{site_name}}
+</p>

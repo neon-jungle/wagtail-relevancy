@@ -23,6 +23,7 @@
                                 <a href="{% url 'wagtailadmin_pages:edit' reminder.page.id %}" title="{% trans 'Edit this page' %}">{{ reminder.page.title }}</a>
                             </h2>
                             <ul class="actions">
+                                <li><a href="{% url 'wagtailrelevancy_review' pk=reminder.pk %}" class="button button-small button-primary">{% trans 'Mark as reviewed' %}</a></li>
                                 <li><a href="{% url 'wagtailadmin_pages:edit' reminder.page.id %}" class="button button-small button-secondary">{% trans 'Edit' %}</a></li>
                                 <li><a href="{{reminder.page.url}}" class="button button-small button-secondary">{% trans 'Live' %}</a></li>
                             </ul>

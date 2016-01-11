@@ -16,22 +16,8 @@ def create_reminders(sender, **kwargs):
 
     reminder_queryset = Reminder.objects.filter(page=instance)
 
-    if reminder_queryset.exists():
-        if reminder_queryset.count() > 1:
-            raise AttributeError('There should only ever be one reminder for a page!')
-        remind_interval = reminder_queryset.first().reminder_interval
-        due_to_be_sent_at = timezone.now() + timedelta(days=remind_interval)
-        old_reminder = Reminder.objects.get(page=instance, sent=False)
-        new_reminder = old_reminder
-        new_reminder.user = user
-        new_reminder.due_to_be_sent_at = due_to_be_sent_at
-        new_reminder.save()
-
-
-@receiver(page_unpublished)
-def check_reminders(sender, **kwargs):
-    instance = kwargs['instance']
-
-    reminders = Reminder.objects.filter(page=instance)
-    print('Removing {0} reminders, as the page {1} has been unpublished.'.format(reminders.count(), instance.title))
-    reminders.delete()
+    for reminder in reminder_queryset:
+        due_to_be_sent_at = timezone.now() + timedelta(days=reminder.reminder_interval)
+        reminder.due_to_be_sent_at = due_to_be_sent_at
+        reminder.sent = False
+        reminder.save()
