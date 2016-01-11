@@ -1,16 +1,16 @@
 from django.shortcuts import render
-from wagtail.wagtailusers.forms import GroupForm, GroupPagePermissionFormSet
+
+from ..forms import ReminderFormSet
 
 
 def edit(request):
-    group = get_object_or_404(Group, id=group_id)
     if request.method == "POST":
-        pass
+        formset = ReminderFormSet(request.POST, instance=request.user)
+        if formset.is_valid():
+            formset.save()
     else:
-        form = GroupForm(instance=group)
-        formset = GroupPagePermissionFormSet(instance=group)
+        formset = ReminderFormSet(instance=request.user)
     return render(request, 'wagtailrelevancy/edit.html', {
         'request': request,
-        'form': form,
         'formset': formset,
     })

@@ -2,7 +2,7 @@
 {% extends "wagtailadmin/base.html" %}
 {% load wagtailusers_tags static compress i18n %}
 
-{% block titletag %}{% trans "Editing" %} {{ group.name }}{% endblock %}
+{% block titletag %}{% trans "Relevancy" %} {{ request.user.get_full_name }}{% endblock %}
 
 {% block extra_css %}
     {{ block.super }}
@@ -13,8 +13,8 @@
 
 {% block content %}
 
-    {% trans "Editing" as editing_str %}
-    {% include "wagtailadmin/shared/header.html" with title=editing_str subtitle=group.name icon="group" %}
+    {% trans "Relevancy" as relevancy_str %}
+    {% include "wagtailadmin/shared/header.html" with title=relevancy_str subtitle=request.user.get_full_name icon="doc-full" %}
 
     <div class="nice-padding">
         <form action="" method="POST">
@@ -22,10 +22,10 @@
 
             <ul class="fields">
                 <li>
-                    {% include "wagtailusers/groups/includes/page_permissions_formset.html" with formset=formset only %}
+                    {% include "wagtailrelevancy/preference_formset.html" with formset=formset only %}
                 </li>
                 <li>
-                    <input type="submit" value="{% trans 'Save' %}" />
+                    <input type="submit" value="{% trans 'Save Preferences' %}" />
                 </li>
             </ul>
 
@@ -35,5 +35,5 @@
 
 {% block extra_js %}
     {{ block.super }}
-    {% include "wagtailusers/groups/includes/group_form_js.html" %}
+    {% include "wagtailrelevancy/reminder_form_js.html" %}
 {% endblock %}

@@ -31,7 +31,9 @@ class ReminderWarningPanel(object):
 
 @hooks.register('construct_homepage_panels')
 def reminder_warnings(request, panels):
-    panels.append(ReminderWarningPanel(request))
+    reminder_panels = ReminderWarningPanel(request)
+    if panels:
+        panels.append(reminder_panels)
 
     """
     DEBUG
