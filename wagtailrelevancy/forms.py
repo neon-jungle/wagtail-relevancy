@@ -36,7 +36,6 @@ class ReminderForm(forms.ModelForm):
     def save(self, commit=True):
         instance = super(ReminderForm, self).save(commit=False)
         if commit:
-            print('called')
             instance.due_to_be_sent_at = timezone.now() + timedelta(days=instance.reminder_interval)
             instance.save()
         return instance
